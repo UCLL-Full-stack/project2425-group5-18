@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import userService from '../service/user.service';
 import { User } from '../model/user';
+import { UserInput } from '../types';
 
 const userRouter = express.Router();
 
@@ -70,47 +71,10 @@ const userRouter = express.Router();
  *                          items:
  *                              $ref: '#/components/schemas/User'
  */
-userRouter.get('/all', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const users = await userService.getAllUsers();
         res.status(200).send(users);
-    } catch (error) {
-        next(error);
-    }
-});
-
-/**
- * @swagger
- * /users/{id}:
- *  get:
- *      summary: Retrieve a single user
- *      description: Retrieve a single user from the database
- *      parameters:
- *          - in: path
- *            name: id
- *            required: true
- *            description: The id of the user to retrieve
- *            schema:
- *              type: integer
- *      responses:
- *          200:
- *              description: A single user
- *              content:
- *                  application/json:
- *                      schema:
- *                          $ref: '#/components/schemas/User'
- *          404:
- *              description: The user was not found
- */
-userRouter.get('/users/:id', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const id = parseInt(req.params.id);
-        const user = await userService.getUserById(id);
-        if (user) {
-            res.status(200).send(user);
-        } else {
-            res.status(404).send();
-        }
     } catch (error) {
         next(error);
     }
@@ -138,29 +102,13 @@ userRouter.get('/users/:id', async (req: Request, res: Response, next: NextFunct
  *          400:
  *              description: Invalid input data
  */
-userRouter.post('/users', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { firstName, lastName, username, email, password, birthDate, address } = req.body;
-        const existingUsernames = await userService.getAllUsernames();
-
-        const user = new User({
-            firstName,
-            lastName,
-            username,
-            email,
-            password,
-            birthDate: new Date(birthDate),
-            address
-        });
-
-        const validationMessage = user.registerUser(existingUsernames);
-        if (validationMessage !== "User registered successfully.") {
-            return res.status(400).send({ message: validationMessage });
-        }
-
-        const newUser = await userService.createUser(user);
-        res.status(201).send(newUser);
-    } catch (error) {
+        const user = <User>req.body;
+        const result = await userService.createUser(user);
+        res.status(200).json(result);
+    }
+    catch (error) {
         next(error);
     }
 });

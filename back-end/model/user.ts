@@ -18,6 +18,8 @@ export class User {
         birthDate: Date,
         address: string
     }) {
+        this.validate(user);
+
         this.id = user.id;
         this.firstName = user.firstName;
         this.lastName = user.lastName;
@@ -28,79 +30,78 @@ export class User {
         this.address = user.address;
     }
 
-    public getId(): number | undefined {
+    getId(): number | undefined {
         return this.id;
     }
 
-    public getFirstName(): string {
+    getFirstName(): string {
         return this.firstName;
     }
 
-    public getLastName(): string {
+    getLastName(): string {
         return this.lastName;
     }
 
-    public getUsername(): string {
+    getUsername(): string {
         return this.username;
     }
 
-    public getEmail(): string {
+    getEmail(): string {
         return this.email;
     }
 
-    public getPassword(): string {
+    getPassword(): string {
         return this.password;
     }
 
-    public getBirthDate(): Date {
+    getBirthDate(): Date {
         return this.birthDate;
     }
 
-    public getAddress(): string {
+    getAddress(): string {
         return this.address;
     }
 
-    public setId(id: number): void {
-        this.id = id;
-    }
-
-    private isValidPassword(): boolean {
-        return this.password.length >= 7;
-    }
-
-    private isValidUsername(existingUsernames: string[]): boolean {
-        return !existingUsernames.includes(this.username);
-    }
-
-    private isValidEmail(): boolean {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(this.email);
-    }
-
-    private isValidAge(): boolean {
-        const today = new Date();
-        let age = today.getFullYear() - this.birthDate.getFullYear();
-        const monthDiff = today.getMonth() - this.birthDate.getMonth();
-        const dayDiff = today.getDate() - this.birthDate.getDate();
-        if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-            age--;
+    validate(user: {
+        id?: number,
+        firstName: string,
+        lastName: string,
+        username: string,
+        email: string,
+        password: string,
+        birthDate: Date,
+        address: string
+    }): void {
+        if (!user.firstName) {
+            throw new Error('First name is required');
         }
-        return age >= 16 && age <= 110;
-    }
 
-    public registerUser(existingUsernames: string[]): string {
-        if (!this.isValidPassword()) {
-            return "Password must be at least 7 characters long.";
+        if (!user.lastName) {
+            throw new Error('Last name is required');
         }
-        if (!this.isValidUsername(existingUsernames)) {
-            return "Username must be unique.";
+
+        if (!user.username) {
+            throw new Error('Username is required');
         }
-        if (!this.isValidEmail()) {
-            return "Email must be of valid format.";
+
+        if (!user.email) {
+            throw new Error('Email is required');
         }
-        if (!this.isValidAge()) {
-            return "Age must be between 16 and 110.";
+        const regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+        if (!regexp.test(user.email)) {
+            throw new Error('Email is not valid');
         }
-        return "User registered successfully.";
+
+        if (!user.password) {
+            throw new Error('Password is required');
+        }
+
+        if (!user.birthDate) {
+            throw new Error('Birth date is required');
+        }
+
+        if (!user.address) {
+            throw new Error('Address is required');
+        }
     }
 }

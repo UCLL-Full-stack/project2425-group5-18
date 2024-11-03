@@ -8,7 +8,7 @@ const user1 = new User({
     email: 'johndoe@web.com',
     password: 'password',
     birthDate: new Date('1990-01-01'),
-    address: 'Sesamstraat 20, 300 Leuven'
+    address: 'Sesamstraat 20, 3000 Leuven'
 });
 
 const user2 = new User({
@@ -19,7 +19,7 @@ const user2 = new User({
     email: 'janedoe@web.com',
     password: 'password',
     birthDate: new Date('1990-01-01'),
-    address: 'Sesamstraat 21, 300 Leuven'
+    address: 'Sesamstraat 21, 3000 Leuven'
 });
 
 const users = [user1, user2];
@@ -33,7 +33,6 @@ export function getUserById(id: number): User | undefined {
 }
 
 export function addUser(user: User): User {
-    user.setId(users.length ? users[users.length - 1].getId()! + 1 : 1);
     users.push(user);
     return user;
 }
