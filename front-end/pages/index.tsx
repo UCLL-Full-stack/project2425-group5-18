@@ -50,31 +50,33 @@ export default function Home() {
 
                     <div>
                         <h2>Overzicht gebruikers</h2>
-                        <thead>
-                            <th>Username</th>
-                            <th>Password</th>
-                            <th>Role</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Admin</td>
-                                <td>SecurePassword</td>
-                                <td>ADMIN</td>
-                            </tr>
-                            <tr>
-                                <td>KolleHector</td>
-                                <td>password2</td>
-                                <td>COLLECTOR</td>
-                            </tr>
-                            <tr>
-                                <td>ViezeThor</td>
-                                <td>password3</td>
-                                <td>VISITOR</td>
-                            </tr>
-                        </tbody>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Password</th>
+                                    <th>Role</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Admin</td>
+                                    <td>SecurePassword</td>
+                                    <td>ADMIN</td>
+                                </tr>
+                                <tr>
+                                    <td>KolleHector</td>
+                                    <td>password2</td>
+                                    <td>COLLECTOR</td>
+                                </tr>
+                                <tr>
+                                    <td>ViezeThor</td>
+                                    <td>password3</td>
+                                    <td>VISITOR</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-
-                    <tr></tr>
                 </main>
             </div>
 
