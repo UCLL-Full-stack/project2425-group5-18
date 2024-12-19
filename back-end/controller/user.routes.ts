@@ -1,6 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
 import userService from '../service/user.service';
-import { User } from '../model/user';
 import { UserInput } from '../types';
 
 const userRouter = express.Router();
@@ -80,6 +79,25 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
+userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userInput = <UserInput>req.body;
+        const response = await userService.authenticate(userInput);
+        res.status(200).json({ message: 'Authentication succesful', ...response });
+    } catch (error) {
+        next(error);
+    }
+});
+
+userRouter.get('/:name', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const users = await userService.getUserByUsername({ username: String(req.params.name) });
+        res.status(200).send(users);
+    } catch (error) {
+        next(error);
+    }
+});
+
 /**
  * @swagger
  * /users:
@@ -102,15 +120,13 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  *          400:
  *              description: Invalid input data
  */
-userRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = <User>req.body;
-        const result = await userService.createUser(user);
-        res.status(200).json(result);
-    }
-    catch (error) {
+        const userInput = <UserInput>req.body;
+        const user = await userService.createUser(userInput);
+        res.status(200).json(user);
+    } catch (error) {
         next(error);
     }
 });
-
 export { userRouter };

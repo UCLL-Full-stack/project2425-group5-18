@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int       @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  username       String    @unique
+  email          String    @unique
+  password       String
+  birthDate      DateTime
+  address        String
+  role           Role
+  collectors     Collector[]
+}
+
+model Car {
+  id             Int       @id @default(autoincrement())
+  brand          String
+  model          String
+  color          String
+  year           Int
+  fuel           Fuel
+  transmission   Transmission
+  distance       Int
+  picture        String
+  collections    Collection[]
+}
+
+model Collector {
+  id               Int         @id @default(autoincrement())
+  userId           Int
+  user             User        @relation(fields: [userId], references: [id])
+  collections      Collection[]
+  profileDescription String
+}
+
+model Collection {
+  id             Int       @id @default(autoincrement())
+  name           String
+  description    String
+  ownerId        Int
+  owner          Collector  @relation(fields: [ownerId], references: [id])
+  cars           Car[]
+}
+
+enum Fuel {
+  DIESEL
+  BENZINE
+  ELEKTRISCH
+  HYBRIDE
+  LPG
+}
+
+enum Transmission {
+  MANUEEL
+  AUTOMAAT
+}
+
+enum Role {
+  ADMIN
+  COLLECTOR
+  VISITOR
+}

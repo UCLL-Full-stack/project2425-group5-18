@@ -1,3 +1,6 @@
+import { Role } from '../types';
+import { User as UserPrisma } from '@prisma/client';
+
 export class User {
     private id?: number;
     private firstName: string;
@@ -7,6 +10,7 @@ export class User {
     private password: string;
     private birthDate: Date;
     private address: string;
+    private role: Role;
 
     constructor(user: {
         id?: number,
@@ -16,10 +20,10 @@ export class User {
         email: string,
         password: string,
         birthDate: Date,
-        address: string
+        address: string,
+        role: Role
     }) {
         this.validate(user);
-
         this.id = user.id;
         this.firstName = user.firstName;
         this.lastName = user.lastName;
@@ -28,8 +32,10 @@ export class User {
         this.password = user.password;
         this.birthDate = user.birthDate;
         this.address = user.address;
+        this.role = user.role;
     }
 
+    //getters
     getId(): number | undefined {
         return this.id;
     }
@@ -62,6 +68,10 @@ export class User {
         return this.address;
     }
 
+    getRole(): Role {
+        return this.role;
+    }
+
     validate(user: {
         id?: number,
         firstName: string,
@@ -70,7 +80,8 @@ export class User {
         email: string,
         password: string,
         birthDate: Date,
-        address: string
+        address: string,
+        role: Role
     }): void {
         if (!user.firstName) {
             throw new Error('First name is required');
@@ -100,8 +111,43 @@ export class User {
             throw new Error('Birth date is required');
         }
 
+        if (user.birthDate.getFullYear() > new Date(Date.now()).getFullYear() - 18) {
+            throw new Error('User must be at least 18 years old');
+        }
+
         if (!user.address) {
             throw new Error('Address is required');
         }
+
+        if (!user.role) {
+            throw new Error('Role is required');
+        }
+    }
+
+    equals(user: User): boolean {
+        return (
+            this.firstName === user.getFirstName() &&
+            this.lastName === user.getLastName() &&
+            this.username === user.getUsername() &&
+            this.email === user.getEmail() &&
+            this.password === user.getPassword() &&
+            this.birthDate === user.getBirthDate() &&
+            this.address === user.getAddress() &&
+            this.role === user.getRole()
+        );
+    }
+
+    static from({ id, firstName, lastName, username, email, password, birthDate, address, role }: UserPrisma) {
+        return new User({
+            id,
+            firstName,
+            lastName,
+            username,
+            email,
+            password,
+            birthDate,
+            address,
+            role: role as Role,
+        });
     }
 }

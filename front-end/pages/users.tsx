@@ -4,6 +4,7 @@ import Header from '@/components/header';
 import styles from '@/styles/Home.module.css';
 import { useEffect, useState } from 'react';
 import { fetchUsers } from '@/services/userservice';
+import Footer from '@/components/footer';
 
 const roboto = Roboto({
     subsets: ['latin'],
@@ -59,7 +60,6 @@ export default function Home() {
                                 <th>Last Name</th>
                                 <th>Username</th>
                                 <th>Email</th>
-                                <th>Password</th>
                                 <th>Birth Date</th>
                                 <th>Address</th>
                             </tr>
@@ -72,7 +72,6 @@ export default function Home() {
                                     <td>{user.lastName}</td>
                                     <td>{user.username}</td>
                                     <td>{user.email}</td>
-                                    <td>{user.password}</td>
                                     <td>{new Date(user.birthDate).toLocaleDateString()}</td>
                                     <td>{user.address}</td>
                                 </tr>
@@ -81,6 +80,8 @@ export default function Home() {
                     </table>
                 </main>
             </div>
+
+            <Footer />
         </>
     );
 }

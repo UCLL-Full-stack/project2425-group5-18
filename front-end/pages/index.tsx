@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { Roboto } from 'next/font/google';
 import Header from '@/components/header';
+import Footer from '@/components/footer';
 import styles from '@/styles/Home.module.css';
 
 const roboto = Roboto({
@@ -46,8 +47,38 @@ export default function Home() {
                             pagina om alle users te zien.
                         </li>
                     </ul>
+
+                    <div>
+                        <h2>Overzicht gebruikers</h2>
+                        <thead>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Role</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Admin</td>
+                                <td>SecurePassword</td>
+                                <td>ADMIN</td>
+                            </tr>
+                            <tr>
+                                <td>KolleHector</td>
+                                <td>password2</td>
+                                <td>COLLECTOR</td>
+                            </tr>
+                            <tr>
+                                <td>ViezeThor</td>
+                                <td>password3</td>
+                                <td>VISITOR</td>
+                            </tr>
+                        </tbody>
+                    </div>
+
+                    <tr></tr>
                 </main>
             </div>
+
+            <Footer />
         </>
     );
 }

@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Header from '@/components/header';
 import styles from '@/styles/Home.module.css';
 import { Roboto } from 'next/font/google';
+import Footer from '@/components/footer';
 
 const roboto = Roboto({
     subsets: ['latin'],
@@ -166,6 +167,8 @@ export default function Register() {
                     </div>
                 </form>
             </div>
+
+            <Footer />
         </>
     );
 }
