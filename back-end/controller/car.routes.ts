@@ -1,9 +1,68 @@
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *   schemas:
+ *     Car:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: databank id.
+ *         brand:
+ *           type: string
+ *           description: de merknaam (vb Saab).
+ *         model:
+ *           type: string
+ *           description: het model (vb 9000).
+ *         color:
+ *           type: string
+ *           description: de kleur van het voertuig.
+ *         year:
+ *           type: integer
+ *           description: het bouwjaar (!= modeljaar!).
+ *         fuel:
+ *           type: string
+ *           description: de energiebron (vb diesel, benzine, lpg,...).
+ *         transmission:
+ *           type: string
+ *           description: het type versnellingsbak (vb automatisch let op Saab Sensonic kan in deze applicatie niet).
+ *         distance:
+ *           type: number
+ *           description: de kilomerterstand.
+ *         picture:
+ *           type: string
+ *           format: url
+ *           description: een url naar de afbeelding.
+ */
+
+
 import express, { NextFunction, Request, Response } from 'express';
 import carService from '../service/car.service';
 import { CarInput } from '../types';
 
 const carRouter = express.Router();
-
+/**
+ * @swagger
+ * /car:
+ *   get:
+ *     summary: get request van alle autos.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: een lijst van alle autos.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Car'
+ */
 carRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const cars = await carService.getAllCars();
@@ -13,6 +72,30 @@ carRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
+/**
+ * @swagger
+ * /car/{id}:
+ *   get:
+ *     summary: get request van een auto per id.
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: auto id.
+ *     responses:
+ *       200:
+ *         description: een auto object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Car'
+ *       404:
+ *         description: auto niet gevonden.
+ */
 carRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const car = await carService.getCarById({ id: Number(req.params.id) });
@@ -22,6 +105,30 @@ carRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =>
     }
 });
 
+/**
+ * @swagger
+ * /car/brand/{brand}:
+ *   get:
+ *     summary: get request met het merk als pathvariable .
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: brand
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: de merknaam.
+ *     responses:
+ *       200:
+ *         description: een auto object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Car'
+ *       404:
+ *         description: voertuig niet gevonden.
+ */
 carRouter.get('/brand/:brand', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const car = await carService.getCarByBrand({ brand: String(req.params.brand) });
@@ -31,6 +138,30 @@ carRouter.get('/brand/:brand', async (req: Request, res: Response, next: NextFun
     }
 });
 
+/**
+ * @swagger
+ * /car/model/{model}:
+ *   get:
+ *     summary: get request van autos per model.
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: model
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: het model.
+ *     responses:
+ *       200:
+ *         description: A car object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Car'
+ *       404:
+ *         description: voertuig niet gevonden.
+ */
 carRouter.get('/model/:model', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const car = await carService.getCarByModel({ model: String(req.params.model) });
@@ -40,6 +171,30 @@ carRouter.get('/model/:model', async (req: Request, res: Response, next: NextFun
     }
 });
 
+/**
+ * @swagger
+ * /car/year/{year}:
+ *   get:
+ *     summary: get request per bouwjaar.
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: year
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: het bouwjaaar vh voertuig.
+ *     responses:
+ *       200:
+ *         description: auto object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Car'
+ *       404:
+ *         description: auto niet gevonden.
+ */
 carRouter.get('/year/:year', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const car = await carService.getCarByYear({ year: Number(req.params.year) });
@@ -49,6 +204,29 @@ carRouter.get('/year/:year', async (req: Request, res: Response, next: NextFunct
     }
 });
 
+/**
+ * @swagger
+ * /car:
+ *   post:
+ *     summary: maak een nieuwe auto aan.
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Car'
+ *     responses:
+ *       200:
+ *         description: auto succesvol aangemaakt.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Car'
+ *       400:
+ *         description: het aanmaken is niet gelukt.
+ */
 carRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const carInput = <CarInput>req.body;
