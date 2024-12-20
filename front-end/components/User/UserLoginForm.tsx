@@ -51,21 +51,30 @@ const UserLoginForm: React.FC = () => {
 
         const userService = await UserService();
         const response = await userService.loginUser(newUser);
-        const token = await response.json();
-        if (response.ok) {
+
+        if (!response.ok) {
             setStatusMessages([
                 {
-                    message: t('login.success'),
-                    type: 'success',
+                    message: t('login.error'),
+                    type: 'error',
                 },
             ]);
-
-            localStorage.setItem('loggedInUser', JSON.stringify(token));
-
-            setTimeout(() => {
-                router.push('/');
-            }, 2000);
+            return;
         }
+
+        const token = await response.json();
+        setStatusMessages([
+            {
+                message: t('login.success'),
+                type: 'success',
+            },
+        ]);
+
+        localStorage.setItem('loggedInUser', JSON.stringify(token));
+
+        setTimeout(() => {
+            router.push('/');
+        }, 2000);
     };
 
     return (

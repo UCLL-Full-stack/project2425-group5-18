@@ -75,7 +75,7 @@ const prisma = new PrismaClient();
                 fuel: 'BENZINE',
                 transmission: 'MANUEEL',
                 distance: 10000,
-                picture: 'Ford911.png'
+                picture: 'https://www.autofairford.com/ford-suvs-and-cars-model-hub.htm'
             }
         })
 
@@ -88,7 +88,7 @@ const prisma = new PrismaClient();
                 fuel : 'ELEKTRISCH',
                 transmission : 'AUTOMAAT',
                 distance : 50000,
-                picture: "Fiat500.png"
+                picture: "https://www.autofairford.com/ford-suvs-and-cars-model-hub.htm"
             }
         })
 
@@ -101,7 +101,7 @@ const prisma = new PrismaClient();
                 fuel : 'DIESEL',
                 transmission : 'MANUEEL',
                 distance : 10000000,
-                picture: "Lada.png"
+                picture: "https://www.autofairford.com/ford-suvs-and-cars-model-hub.htm"
             }
         })
 
@@ -114,7 +114,7 @@ const prisma = new PrismaClient();
                 fuel : 'DIESEL',
                 transmission : 'MANUEEL',
                 distance : 10023,
-                picture: "Saab900.png"
+                picture: "https://www.autofairford.com/ford-suvs-and-cars-model-hub.htm"
             }
         })
 
@@ -127,7 +127,7 @@ const prisma = new PrismaClient();
                 fuel : 'BENZINE',
                 transmission : 'MANUEEL',
                 distance : 4989387,
-                picture: "MazdaMX5.png"
+                picture: "https://www.autofairford.com/ford-suvs-and-cars-model-hub.htm"
             }
         })
         const Toyota = await prisma.car.create({
@@ -139,7 +139,7 @@ const prisma = new PrismaClient();
                 fuel : 'DIESEL',
                 transmission : 'MANUEEL',
                 distance : 509309,
-                picture: "ToyotaCHR.png"
+                picture: "https://www.autofairford.com/ford-suvs-and-cars-model-hub.htm"
             }
         })
 
@@ -152,7 +152,7 @@ const prisma = new PrismaClient();
                 fuel : 'BENZINE',
                 transmission : 'MANUEEL',
                 distance : 345723,
-                picture: "AudiRS6.png"
+                picture: "https://www.autofairford.com/ford-suvs-and-cars-model-hub.htm"
             }
         })
 
