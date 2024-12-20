@@ -1,10 +1,10 @@
 import Head from 'next/head';
 import { Roboto } from 'next/font/google';
-import Header from '@/components/header';
+import Header from '@/components/UI/header';
 import styles from '@/styles/Home.module.css';
 import { useEffect, useState } from 'react';
-import { fetchUsers } from '@/services/userservice';
-import Footer from '@/components/footer';
+import UserService from '@/services/userservice';
+import Footer from '@/components/UI/footer';
 
 const roboto = Roboto({
     subsets: ['latin'],
@@ -28,7 +28,8 @@ export default function Home() {
     useEffect(() => {
         const getUsers = async () => {
             try {
-                const users = await fetchUsers();
+                const userService = await UserService();
+                const users = await userService.fetchUsers();
                 setUsers(users);
             } catch (error) {
                 console.error('Error fetching users:', error);

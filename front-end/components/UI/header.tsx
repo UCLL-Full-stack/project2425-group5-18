@@ -37,7 +37,7 @@ const Header: React.FC = () => {
                         <a href="/cars">Cars</a>
                     </li>
                     <li>
-                        <a href="/about">Login</a>
+                        <a href="/login">Login</a>
                     </li>
                 </ul>
             </nav>

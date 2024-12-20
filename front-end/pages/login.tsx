@@ -1,7 +1,8 @@
 import Head from 'next/head';
 import { Roboto } from 'next/font/google';
-import Header from '@/components/header';
-import Footer from '@/components/footer';
+import Header from '@/components/UI/header';
+import Footer from '@/components/UI/footer';
+import LoginForm from '@/components/User/UserLoginForm';
 // import styles from '@/styles/Login.module.css';
 
 const roboto = Roboto({
@@ -22,9 +23,11 @@ export default function Cars() {
             <Header />
 
             <main>
-                <h1>Welkom in de kluis</h1>
-                <ul></ul>
+                <h1>Inloggen</h1>
+
+                <LoginForm />
             </main>
+
             <Footer />
         </>
     );

@@ -1,13 +1,7 @@
 import Head from 'next/head';
-import { Roboto } from 'next/font/google';
-import Header from '@/components/header';
-import Footer from '@/components/footer';
-// import styles from '@/styles/Cars.module.css';
-
-const roboto = Roboto({
-    subsets: ['latin'],
-    weight: '100',
-});
+import Header from '@/components/UI/header';
+import Footer from '@/components/UI/footer';
+import CarsPage from '@/components/Cars/cars';
 
 export default function Cars() {
     return (
@@ -21,10 +15,8 @@ export default function Cars() {
 
             <Header />
 
-            <main>
-                <h1>Welkom in de kluis</h1>
-                <ul></ul>
-            </main>
+            <CarsPage />
+
             <Footer />
         </>
     );
