@@ -12,32 +12,32 @@
  *       properties:
  *         id:
  *           type: integer
- *           description: The unique identifier for a car.
+ *           description: databank id.
  *         brand:
  *           type: string
- *           description: The brand of the car.
+ *           description: de merknaam (vb Saab).
  *         model:
  *           type: string
- *           description: The model of the car.
+ *           description: het model (vb 9000).
  *         color:
  *           type: string
- *           description: The color of the car.
+ *           description: de kleur van het voertuig.
  *         year:
  *           type: integer
- *           description: The manufacturing year of the car.
+ *           description: het bouwjaar (!= modeljaar!).
  *         fuel:
  *           type: string
- *           description: The type of fuel the car uses (e.g., petrol, diesel).
+ *           description: de energiebron (vb diesel, benzine, lpg,...).
  *         transmission:
  *           type: string
- *           description: The transmission type of the car (e.g., automatic, manual).
+ *           description: het type versnellingsbak (vb automatisch let op Saab Sensonic kan in deze applicatie niet).
  *         distance:
  *           type: number
- *           description: The distance the car has traveled in kilometers.
+ *           description: de kilomerterstand.
  *         picture:
  *           type: string
  *           format: url
- *           description: A URL to an image of the car.
+ *           description: een url naar de afbeelding.
  */
 
 
@@ -50,12 +50,12 @@ const carRouter = express.Router();
  * @swagger
  * /car:
  *   get:
- *     summary: Get a list of all cars.
+ *     summary: get request van alle autos.
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: A list of cars.
+ *         description: een lijst van alle autos.
  *         content:
  *           application/json:
  *             schema:
@@ -76,7 +76,7 @@ carRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  * @swagger
  * /car/{id}:
  *   get:
- *     summary: Get a car by ID.
+ *     summary: get request van een auto per id.
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -85,16 +85,16 @@ carRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  *         schema:
  *           type: integer
  *         required: true
- *         description: The car ID.
+ *         description: auto id.
  *     responses:
  *       200:
- *         description: A car object.
+ *         description: een auto object.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Car'
  *       404:
- *         description: Car not found.
+ *         description: auto niet gevonden.
  */
 carRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -109,7 +109,7 @@ carRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =>
  * @swagger
  * /car/brand/{brand}:
  *   get:
- *     summary: Get a car by brand.
+ *     summary: get request met het merk als pathvariable .
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -118,16 +118,16 @@ carRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =>
  *         schema:
  *           type: string
  *         required: true
- *         description: The brand of the car.
+ *         description: de merknaam.
  *     responses:
  *       200:
- *         description: A car object.
+ *         description: een auto object.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Car'
  *       404:
- *         description: Car not found.
+ *         description: voertuig niet gevonden.
  */
 carRouter.get('/brand/:brand', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -142,7 +142,7 @@ carRouter.get('/brand/:brand', async (req: Request, res: Response, next: NextFun
  * @swagger
  * /car/model/{model}:
  *   get:
- *     summary: Get a car by model.
+ *     summary: get request van autos per model.
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -151,7 +151,7 @@ carRouter.get('/brand/:brand', async (req: Request, res: Response, next: NextFun
  *         schema:
  *           type: string
  *         required: true
- *         description: The model of the car.
+ *         description: het model.
  *     responses:
  *       200:
  *         description: A car object.
@@ -160,7 +160,7 @@ carRouter.get('/brand/:brand', async (req: Request, res: Response, next: NextFun
  *             schema:
  *               $ref: '#/components/schemas/Car'
  *       404:
- *         description: Car not found.
+ *         description: voertuig niet gevonden.
  */
 carRouter.get('/model/:model', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -175,7 +175,7 @@ carRouter.get('/model/:model', async (req: Request, res: Response, next: NextFun
  * @swagger
  * /car/year/{year}:
  *   get:
- *     summary: Get a car by manufacturing year.
+ *     summary: get request per bouwjaar.
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -184,16 +184,16 @@ carRouter.get('/model/:model', async (req: Request, res: Response, next: NextFun
  *         schema:
  *           type: integer
  *         required: true
- *         description: The manufacturing year of the car.
+ *         description: het bouwjaaar vh voertuig.
  *     responses:
  *       200:
- *         description: A car object.
+ *         description: auto object.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Car'
  *       404:
- *         description: Car not found.
+ *         description: auto niet gevonden.
  */
 carRouter.get('/year/:year', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -208,7 +208,7 @@ carRouter.get('/year/:year', async (req: Request, res: Response, next: NextFunct
  * @swagger
  * /car:
  *   post:
- *     summary: Create a new car.
+ *     summary: maak een nieuwe auto aan.
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -219,13 +219,13 @@ carRouter.get('/year/:year', async (req: Request, res: Response, next: NextFunct
  *             $ref: '#/components/schemas/Car'
  *     responses:
  *       200:
- *         description: Car created successfully.
+ *         description: auto succesvol aangemaakt.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Car'
  *       400:
- *         description: Bad request.
+ *         description: het aanmaken is niet gelukt.
  */
 carRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
