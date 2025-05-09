@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import userService from '../service/user.service';
 import { UserInput } from '../types';
+import jwt from 'jsonwebtoken';
 
 const userRouter = express.Router();
 
@@ -82,8 +83,20 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
 userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userInput = <UserInput>req.body;
-        const response = await userService.authenticate(userInput);
-        res.status(200).json({ message: 'Authentication succesful', ...response });
+        const user = await userService.authenticate(userInput);
+
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        const token = jwt.sign(
+            { username: user.username },
+            process.env.JWT_SECRET || 'default_secret',
+            { expiresIn: '1h' }
+        );
+
+        // Return just the token (you can add message if you want)
+        res.status(200).json({ token });
     } catch (error) {
         next(error);
     }

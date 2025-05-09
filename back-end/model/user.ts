@@ -1,5 +1,6 @@
 import { Role } from '../types';
 import { User as UserPrisma } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
 export class User {
     private id?: number;
@@ -29,13 +30,13 @@ export class User {
         this.lastName = user.lastName;
         this.username = user.username;
         this.email = user.email;
-        this.password = user.password;
+        this.password = bcrypt.hashSync(user.password, 10);
         this.birthDate = user.birthDate;
         this.address = user.address;
         this.role = user.role;
     }
 
-    //getters
+    // Getters
     getId(): number | undefined {
         return this.id;
     }
@@ -122,6 +123,10 @@ export class User {
         if (!user.role) {
             throw new Error('Role is required');
         }
+    }
+
+    async comparePassword(plainPassword: string): Promise<boolean> {
+        return bcrypt.compare(plainPassword, this.password);
     }
 
     equals(user: User): boolean {
